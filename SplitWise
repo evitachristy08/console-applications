@@ -1,0 +1,121 @@
+package javatraining;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+public class splitwise {
+	public static void main(String[] args) {
+			Scanner s = new Scanner(System.in);
+			System.out.println("\n------------------SPLITWISE APP--------------------------\n");
+			System.out.println("\nENTER NO OF FRIENDS CONNECTED: ");
+			int numOfFriends = s.nextInt();
+			System.out.println("\n----------------------------------------------------");
+			String[] friends = new String[numOfFriends];
+			double totalExpenses = 0;
+			double avgExpenses;
+
+			double[][] payMatrix = new double[numOfFriends][numOfFriends];
+			System.out.print("\nENTER THE NAME OF YOUR FRIEND \n");
+			for (int i = 0; i < numOfFriends; i++) {
+				System.out.print("\n USER " + (i+1) + ": \n");
+			    friends[i] = s.next();
+			}
+			System.out.println("\n----------------------------------------------------\n");
+			System.out.println("\n CHOOSE THE OPTIONS BELOW \n 1.ADD EXPENSE \n 2.VIEW TRANSACTION \n 3.EXIT");
+			System.out.println("\n----------------------------------------------------\n");
+			while(s.hasNext())
+			{
+				int n=s.nextInt();
+				switch(n)
+				{
+				case 1:
+				{
+					System.out.println("ENTER THE PLACE YOU WENT : ");
+					String ss=s.next();
+					System.out.println("ENTER THE TOTAL EXPENSES : ");
+					double amt=s.nextDouble();
+					System.out.println("ENTER THE NAME OF THE PERSON WHO PAID : ");
+					String name=s.next();
+					totalExpenses = amt;
+					int k=0;
+					for (int i = 0; i < numOfFriends; i++) 
+					{
+			            if(name.equals(friends[i]))
+			            {
+			            	k=i;
+			            }
+			        }
+					System.out.println("NO OF FRIENDS WENT TO "+ss+" WITH YOU :  ");
+					int m=s.nextInt();
+					System.out.println("NAME OF THE FRIENDS WENT TO "+ss+" WITH YOU : ");
+					ArrayList<Integer> arr=new ArrayList<>();
+					for(int i=0;i<m;i++)
+					{
+						String mm=s.next();
+						for(int l=0;l<numOfFriends; l++)
+						{
+							if(mm.equals(friends[l]))
+							{
+								arr.add(l);
+							}
+						}
+					}
+					avgExpenses = totalExpenses / m;
+			        for (int i = 0; i < numOfFriends; i++) {
+			            for (int j = 0; j < numOfFriends; j++) {
+			                if (i != j && k==j && arr.contains(i)) {
+			                    payMatrix[i][j]+= avgExpenses;
+			                }
+			                else if(k==i && i!=j && arr.contains(j))
+			                {
+			                    payMatrix[i][j]+=0-avgExpenses;
+			                }
+			            }
+			        }
+			        System.out.println("AMOUNT IS ADDED SUCCESSFULLY!!!");
+			        System.out.println("\n----------------------------------------------------\n");
+			        System.out.println("\n CHOOSE THE OPTIONS BELOW \n 1.ADD EXPENSE \n 2.VIEW TRANSACTION \n 3.EXIT\n");
+			        System.out.println("\n----------------------------------------------------\n");
+					break;
+				}
+				case 2:
+				{
+				    double a = 0.0;
+					for (int i = 0; i < numOfFriends; i++) {
+				           for (int j = 0; j < numOfFriends; j++) {
+				               if (i != j && payMatrix[i][j]>0) {
+				                   a= (Math.round(payMatrix[i][j]*100.0)/100.0);
+				                   System.out.println(friends[i] + " OWES Rs." + a + " TO " + friends[j]);
+				               }
+				           }
+					}
+					
+					if(a==0){
+				        System.out.println("NO AMOUNT TO BE OWED BY ANYONE!!!");
+					}
+					System.out.println("\n----------------------------------------------------");
+					System.out.println("\n CHOOSE THE OPTIONS BELOW \n 1.ADD EXPENSE \n 2.VIEW TRANSACTION \n 3.EXIT");
+					System.out.println("\n----------------------------------------------------");
+					break;
+				}
+				case 3:
+				{
+					System.out.println("THANK YOU FOR CHOOSING SPLITWISE APP!....VISIT AGAIN!!!");
+					System.out.println("\n----------------------------------------------------");
+					break;
+				}
+				default:
+				{
+					System.out.println("OOPS! INVALID ENTRY");
+					System.out.println("\n----------------------------------------------------");
+					System.out.println("\n CHOOSE THE OPTIONS BELOW \n 1.ADD EXPENSE \n 2.VIEW TRANSACTION \n 3.EXIT");
+					System.out.println("\n----------------------------------------------------");
+					
+					break;
+				}
+			  }
+			}
+		}
+}
